@@ -95,10 +95,9 @@ Here are some other possible customizations that can be made relatively easily:
 
 - To translate the app, copy and paste the [base translation file](status_dwarf/i18n/i18n_base.json)
   into the [i18n.json](status_dwarf/i18n/i18n.json) file. Then replace the values of the file to their counterparts in
-  the
-  desired language. Make sure translation is enabled (```TRANSLATION_ENABLED``` option) in the config file. If you want
-  to most text in the app is available in the base translation file, you can use
-  the [gen_i18n_base.py](scripts/gen_i18n_base.py) script.
+  the desired language. Make sure translation is enabled (```TRANSLATION_ENABLED``` option) in the config file. If you
+  want most translatable text in the app to be available in the base translation file, you can use
+  the [gen_i18n_base.py](scripts/gen_i18n_base.py) script to update the base translation file.
 - To change the images (like the one under the header in the home page), you can modify the
   images [here](status_dwarf/static/images).
 - To change the color scheme, edit the variables at the top of the [style.css](status_dwarf/static/css/style.css) file.
@@ -110,4 +109,3 @@ Here are some other possible customizations that can be made relatively easily:
 - Lucide Icons (https://lucide.dev)
 - Fira Sans (https://github.com/mozilla/Fira)
 - And other dependencies listed in [requirements.txt](requirements.txt).
-
