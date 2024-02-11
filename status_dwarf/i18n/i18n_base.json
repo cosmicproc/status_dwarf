@@ -1,0 +1,25 @@
+{
+    "en": {
+        "Operational": "Operational",
+        "Inoperative": "Inoperative",
+        "Mostly Operational": "Mostly Operational",
+        "Insufficient Data": "Insufficient Data",
+        "No Data": "No Data",
+        "Unknown": "Unknown",
+        "Uptime: ": "Uptime: ",
+        "Downtime: ": "Downtime: ",
+        "Missing data: ": "Missing data: ",
+        "App Logo": "App Logo",
+        "No systems are being monitored.": "No systems are being monitored.",
+        "All systems are operational.": "All systems are operational.",
+        "Some systems are currently down.": "Some systems are currently down.",
+        "Average Uptime: ": "Average Uptime: ",
+        "Previous": "Previous",
+        "Next": "Next",
+        "Outage": "Outage",
+        "A target is currently down. Please use the following link to visit the status page:": "A target is currently down. Please use the following link to visit the status page:",
+        "Go to homepage": "Go to homepage",
+        "An error has occurred. Please try again later.": "An error has occurred. Please try again later.",
+        "The requested URL was not found on the server.": "The requested URL was not found on the server."
+    }
+}

@@ -1,0 +1,432 @@
+:root {
+    --color-white-1: white;
+    --color-white-2: whitesmoke;
+    --color-white-3: #E6E6E6;
+    --color-black-1: black;
+    --color-black-2: #141414;
+    --color-black-3: #202020;
+    --color-black-4: #282828;
+    --color-gray-1: gainsboro;
+    --color-gray-2: darkgrey;
+    --color-gray-3: dimgray;
+    --color-gray-4: #555;
+    --color-green-1: limegreen;
+    --color-green-2: forestgreen;
+    --color-green-3: darkgreen;
+    --color-red-1: red;
+    --color-red-2: #eb0000;
+    --color-red-3: #B40000;
+    --color-red-4: darkred;
+    --color-blue-1: lightskyblue;
+    --color-blue-2: dodgerblue;
+    --color-blue-3: midnightblue;
+    --color-yellow-1: yellow;
+    --color-yellow-2: khaki;
+    --color-yellow-3: gold;
+    --color-yellow-4: darkgoldenrod;
+}
+
+body {
+    font-family: "Fira Sans", Ubuntu, Cantarell, Roboto, Tahoma, sans-serif;
+}
+
+.center-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.align-middle {
+    vertical-align: middle;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.ml {
+    margin-left: 0.4em;
+}
+
+.ml-desktop {
+    margin-left: 0.3em;
+}
+
+.status-text {
+    margin-top: 0.6em;
+    padding: 0.4em 0.2em 0.2em;
+    border-top: solid 0.1em;
+    border-top-color: var(--color-gray-2);
+}
+
+.text-green {
+    color: var(--color-green-3);
+}
+
+.text-red {
+    color: var(--color-red-2);
+}
+
+.text-gray {
+    color: var(--color-gray-4);
+}
+
+.text-yellow {
+    color: var(--color-yellow-4);
+}
+
+.center-box-container {
+    text-align: center;
+    padding-top: 35vh;
+}
+
+.center-box-container .center-box-content {
+    display: inline-block;
+    max-width: 40%;
+    padding: 1.5em;
+    border-radius: 1.5em;
+    box-shadow: rgb(100 100 100 / 20%) 0 3px 10px 0;
+    border: solid 2px var(--color-gray-3);
+}
+
+.top-container {
+    margin-top: 3em;
+    text-align: center;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.content {
+    margin-left: 10%;
+    margin-right: 10%;
+    min-height: 82vh;
+}
+
+.monitor {
+    background-color: var(--color-white-2);
+    margin-top: 2em;
+    border: 0.3em solid var(--color-gray-3);
+    border-radius: 4em;
+    box-shadow: rgb(0 0 0 / 15%) 25px 25px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 3em;
+}
+
+.target-container {
+    margin-bottom: 3em;
+    background-color: var(--color-white-3);
+    border-radius: 1.5em;
+    border: solid 1px var(--color-gray-3);
+    display: flex;
+    box-shadow: rgb(0 0 0 / 15%) 0 1px 3px, rgb(0 0 0 / 24%) 0 1px 2px;
+}
+
+.target-name {
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--color-gray-1);
+    padding: 1em;
+    border-radius: 1.5em;
+    outline: solid 2px var(--color-gray-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 40%;
+}
+
+.target-name:hover, .target-name:active {
+    filter: brightness(1.1);
+}
+
+.target-content {
+    padding: 1.6em;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+}
+
+.bottom-side-note {
+    position: absolute;
+    font-size: small;
+    left: 50%;
+    bottom: 0.2em;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.status-block {
+    display: inline-block;
+    width: 1em;
+    height: 2em;
+    border-radius: 0.3em;
+    margin: 0.25em;
+    box-shadow: rgb(0 0 0 / 40%) 0 2px 4px, rgb(0 0 0 / 30%) 0 7px 13px -3px, rgb(0 0 0 / 20%) 0 -3px 0 inset;
+}
+
+.status-block-green {
+    background-color: var(--color-green-2);
+}
+
+.status-block-green:hover {
+    background-color: var(--color-green-1);
+}
+
+.status-block-red {
+    background-color: var(--color-red-2);
+}
+
+.status-block-red:hover {
+    background-color: var(--color-red-1);
+}
+
+.status-block-yellow {
+    background-color: var(--color-yellow-3);
+}
+
+.status-block-yellow:hover {
+    background-color: var(--color-yellow-1);
+}
+
+.status-block-gray {
+    background-color: var(--color-gray-2);
+}
+
+.status-block-gray:hover {
+    background-color: var(--color-gray-1);
+}
+
+.monitor-summary {
+    border-radius: 1em;
+    box-shadow: rgb(100 100 100 / 20%) 0 3px 10px 0;
+    border: solid 2px var(--color-gray-3);
+    margin: auto auto 3em;
+    padding: 1em;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.bg-green {
+    background-color: var(--color-green-1);
+}
+
+.bg-red {
+    background-color: var(--color-red-1);
+}
+
+.tooltip-box {
+    background-color: var(--color-white-3);
+    border: 2px solid var(--color-gray-4);
+    border-radius: 1em;
+    padding: 0.5em;
+    white-space: nowrap;
+    box-shadow: rgb(0 0 0 / 20%) 0 5px 10px;
+}
+
+.tooltip-content {
+    display: none;
+    position: absolute;
+    transform: translate(calc(0.05em - 50%), -100%);
+    padding-bottom: 0.3em;
+}
+
+.tooltip-arrow-down {
+    display: none;
+}
+
+.chevron-down {
+    background: linear-gradient(315deg, var(--color-gray-4) 50%, #0000 0%);
+    border-color: var(--color-gray-3);
+    height: 0.7em;
+    width: 0.7em;
+    margin: auto;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.tooltip:hover .tooltip-content {
+    display: inline;
+}
+
+footer {
+    position: relative;
+    text-align: center;
+    padding-top: 5em;
+    padding-bottom: 2em;
+}
+
+.right-icon {
+    position: absolute;
+    right: 2em;
+    color: inherit;
+}
+
+.faded-text {
+    color: var(--color-gray-4);
+}
+
+.faded-text::selection, .faded-text a::selection {
+    background-color: var(--color-blue-1);
+}
+
+.btn {
+    text-decoration: none;
+    padding: 0.5em;
+    border: 2px grey solid;
+    border-radius: 1em;
+    background-color: var(--color-blue-1);
+    color: var(--color-black-1);
+    display: var(--color-black-1);
+    margin-right: 0.2em;
+    margin-left: 0.2em;
+}
+
+.btn:hover, .btn:active {
+    filter: brightness(1.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--color-black-1);
+        color: var(--color-white-3);
+    }
+
+    .target-container {
+        background-color: var(--color-black-3);
+    }
+
+    .target-name {
+        background-color: var(--color-black-4);
+    }
+
+    .target-status .target-status-box {
+        background-color: var(--color-black-4);
+    }
+
+    a {
+        color: var(--color-blue-2);
+    }
+
+    .monitor {
+        background-color: var(--color-black-2);
+        box-shadow: rgb(255 255 255 / 15%) 25px 25px;
+    }
+
+    .status-block-green {
+        background-color: var(--color-green-3);
+    }
+
+    .status-block-green:hover {
+        background-color: var(--color-green-2);
+    }
+
+    .status-block-red {
+        background-color: var(--color-red-4);
+    }
+
+    .status-block-red:hover {
+        background-color: var(--color-red-3);
+    }
+
+    .status-block-gray {
+        background-color: var(--color-gray-3);
+    }
+
+    .status-block-gray:hover {
+        background-color: var(--color-gray-2);
+    }
+
+    .bg-green {
+        background-color: var(--color-green-3);
+    }
+
+    .bg-red {
+        background-color: var(--color-red-4);
+    }
+
+    .faded-text {
+        color: var(--color-gray-2);
+    }
+
+    .faded-text::selection, .faded-text a::selection {
+        background-color: var(--color-blue-3);
+    }
+
+    .tooltip-box {
+        background-color: var(--color-black-3);
+    }
+
+    .status-text {
+        border-top-color: var(--color-gray-3);
+    }
+
+    .status-block-yellow {
+        background-color: var(--color-yellow-4);
+    }
+
+    .status-block-yellow:hover {
+        background-color: var(--color-yellow-2);
+    }
+
+    .text-green {
+        color: var(--color-green-1);
+    }
+
+    .text-gray {
+        color: var(--color-gray-2);
+    }
+
+    .text-yellow {
+        color: var(--color-yellow-3);
+    }
+
+    .btn {
+        background-color: var(--color-blue-3);
+        color: var(--color-white-3);
+    }
+
+    .app-logo {
+        filter: invert();
+    }
+}
+
+@media (width <= 600px) {
+    .content {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .monitor {
+        padding: 1.5em;
+        box-shadow: none;
+    }
+
+    .target-container {
+        display: block;
+    }
+
+    .target-name {
+        max-width: none;
+    }
+
+    .tooltip:active .tooltip-content {
+        display: inline;
+    }
+
+    .tooltip-box {
+        white-space: inherit;
+        min-width: 9em;
+    }
+
+    .tooltip-arrow-down {
+        display: block;
+    }
+
+    .tooltip-arrow-right {
+        display: none;
+    }
+
+    .ml-desktop {
+        margin-left: 0;
+    }
+}

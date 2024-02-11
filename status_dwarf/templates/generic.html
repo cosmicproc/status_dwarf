@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="{{ _.get_lang() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{{ _(config.APP_NAME) }}</title>
+    {% if config.APP_DESCRIPTION %}
+        <meta name="description" content="{{ _(config.APP_DESCRIPTION) }}"/>
+    {% endif %}
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white"/>
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black"/>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if config.ATOM_ENABLED %}
+        <link href="{{ url_for('views.atom') }}" type="application/atom+xml" rel="alternate" title="Atom feed alerts"/>
+    {% endif %}
+    <script defer src="{{ url_for('static', filename='js/datetime.js') }}"></script>
+</head>
+<body>
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+<footer>
+    <span class="faded-text">{{ _(config.FOOTER_TEXT    )|safe }}</span>
+    {% if config.ATOM_ENABLED %}
+        <a href="{{ url_for('views.atom') }}" aria-label="Atom Feed" class="right-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 11a9 9 0 0 1 9 9"></path>
+                <path d="M4 4a16 16 0 0 1 16 16"></path>
+                <circle cx="5" cy="19" r="1"></circle>
+            </svg>
+        </a>
+    {% endif %}
+</footer>
+</body>
+</html>
