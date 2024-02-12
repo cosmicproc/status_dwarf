@@ -401,6 +401,10 @@ footer {
         box-shadow: none;
     }
 
+    .monitor-summary {
+        font-size: 5vw;
+    }
+
     .target-container {
         display: block;
     }
