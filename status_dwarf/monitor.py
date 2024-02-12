@@ -1,6 +1,6 @@
 import asyncio
-import subprocess
 from datetime import datetime, timedelta, timezone
+from subprocess import DEVNULL
 from typing import Optional
 
 import httpx
@@ -15,8 +15,8 @@ scheduler = APScheduler()
 
 async def icmp_heartbeat(address: str) -> bool:
     address = strip_protocol(address)
-    proc = await asyncio.create_subprocess_shell(f'ping -c 1 "{address}"',
-                                                 stdout=subprocess.DEVNULL)
+    proc = await asyncio.create_subprocess_exec("ping", "-c", "1", address,
+                                                stdout=DEVNULL, stderr=DEVNULL)
     await proc.communicate()
     return proc.returncode == 0
 
