@@ -61,6 +61,7 @@ docker build .
 
 ### Non-Docker
 
+The ```ping``` command is required for ICMP (PING) targets. Make sure it's available.
 Create a virtual environment and install gunicorn (you can also use something else if you wish) by running:
 
 ```

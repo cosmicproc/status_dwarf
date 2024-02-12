@@ -1,4 +1,5 @@
 import asyncio
+import subprocess
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -6,17 +7,25 @@ import httpx
 from flask import current_app
 from flask_apscheduler import APScheduler  # type: ignore[import-untyped]
 
-from status_dwarf.models import session, Target, Status
-from status_dwarf.utils import div_ceil, sub_datetime_rounded
+from status_dwarf.models import session, Target, Status, TargetMethod
+from status_dwarf.utils import div_ceil, sub_datetime_rounded, strip_protocol
 
 scheduler = APScheduler()
 
 
-async def is_url_up(url: str, user_agent: Optional[str] = None) -> bool:
+async def icmp_heartbeat(address: str) -> bool:
+    address = strip_protocol(address)
+    proc = await asyncio.create_subprocess_shell(f'ping -c 1 "{address}"',
+                                                 stdout=subprocess.DEVNULL)
+    await proc.communicate()
+    return proc.returncode == 0
+
+
+async def http_heartbeat(address: str, user_agent: Optional[str] = None) -> bool:
     custom_headers = {"User-Agent": user_agent} if user_agent else None
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.head(url, headers=custom_headers)
+            response = await client.head(address, headers=custom_headers)
             return not response.is_error
         except httpx.TransportError:
             return False
@@ -60,7 +69,11 @@ async def check_target(target: Target) -> None:
                 matching_timeline_items.append(new_item)
     with scheduler.app.app_context():
         custom_user_agent = current_app.config["CUSTOM_USER_AGENT"]
-    is_up = await is_url_up(target.url, custom_user_agent)
+    is_up = False
+    if target.strategy == TargetMethod.HTTP:
+        is_up = await http_heartbeat(target.address, custom_user_agent)
+    elif target.strategy == TargetMethod.ICMP:
+        is_up = await icmp_heartbeat(target.address)
     old_status = target.status
     target.status = Status.UP if is_up else Status.DOWN
     if old_status != target.status:

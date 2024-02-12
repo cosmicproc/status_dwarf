@@ -18,10 +18,12 @@ FOOTER_TEXT = (
 # this list with the system's database after any modification.
 # Run this command in the root directory of the project:
 # flask --app status_dwarf commands sync_targets
-# List format: ("user-friendly name", "URL address")
+# List format: ("user-friendly name", "URL or IP address", "strategy")
+# The "strategy" option determines the strategy to check whether a target is operational
+# and can have the following values: "HTTP" and "PING"
 TARGETS = [
-    ("GitHub", "https://github.com"),
-    ("Python.org", "https://python.org"),
+    ("GitHub", "https://github.com", "HTTP"),
+    ("Python.org", "https://python.org", "HTTP"),
 ]
 
 # How often should the app check whether the targets are up in seconds.

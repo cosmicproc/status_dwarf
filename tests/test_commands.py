@@ -21,7 +21,7 @@ class TestCommands(unittest.TestCase):
             sync_targets(no_confirm=True)
             for target in session.query(Target).all():
                 self.assertEqual(target.name, test_targets[target.id - 1][0])
-                self.assertEqual(target.url, test_targets[target.id - 1][1])
+                self.assertEqual(target.address, test_targets[target.id - 1][1])
 
 
 if __name__ == '__main__':
