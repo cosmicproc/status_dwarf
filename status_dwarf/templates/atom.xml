@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>{{ config.APP_NAME }}</title>
+    <subtitle>{{ config.APP_DESCRIPTION }}.</subtitle>
+    <link href="{{ request.url_root[:-1] + url_for('views.atom') }}" rel="self"/>
+    <link href="{{ request.url_root[:-1] + url_for('views.index') }}"/>
+    <id>{{ request.url_root }}</id>
+    <updated>{{ now }}</updated>
+
+    {% for target in targets %}
+        {% if target.status_color == "red" %}
+            <entry>
+                <title>{{ target.name + " " + _("Outage") }}</title>
+                <id>{{ target.id }}</id>
+                <link rel="alternate" type="text/html" href="{{ request.url_root[:-1] + url_for('views.index') }}"/>
+                <updated>{{ target.status_update_datetime }}</updated>
+                <content type="xhtml">
+                    <div xmlns="http://www.w3.org/1999/xhtml">
+                        {{ _("A target is currently down. Please use the following link to visit the status page:") }}
+                        <br/>
+                        <a href="{{ request.url_root }}">{{ request.url_root }}</a>
+                    </div>
+                </content>
+            </entry>
+        {% endif %}
+    {% endfor %}
+</feed>

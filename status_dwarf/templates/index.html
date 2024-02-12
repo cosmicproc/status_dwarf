@@ -1,0 +1,176 @@
+{% extends 'generic.html' %}
+{% block content %}
+    <div class="top-container">
+        <h1>{{ _(config.APP_NAME) }}</h1>
+        {% if config.APP_DESCRIPTION %}
+            <p>{{ _(config.APP_DESCRIPTION) }}</p>
+        {% endif %}
+        <img src="{{ url_for('static', filename='images/app-logo.svg') }}" alt="{{ _("App Logo") }}" class="app-logo"
+             width="100">
+    </div>
+    <div class="monitor" ontouchstart>
+        <div class="center-flex">
+            {% if not targets %}
+                <div class="monitor-summary bg-red">
+                    <span class="align-middle">{{ _("No systems are being monitored.") }}</span>
+                </div>
+            {% elif show_positive_message %}
+                <div class="monitor-summary bg-green">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="align-middle">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                    <span class="align-middle ml-desktop">{{ _("All systems are operational.") }}</span>
+                </div>
+            {% else %}
+                <div class="monitor-summary bg-red">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="align-middle">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m15 9-6 6"></path>
+                        <path d="m9 9 6 6"></path>
+                    </svg>
+                    <span class="align-middle ml-desktop">{{ _("Some systems are currently down.") }}</span>
+                </div>
+            {% endif %}
+        </div>
+        {% for target in targets %}
+            <div class="center-flex">
+                <div class="target-container">
+                    <div class="target-name">
+                        {% if target.status == Status.UP %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="align-middle text-green">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="m9 12 2 2 4-4"></path>
+                            </svg>
+                        {% elif target.status == Status.DOWN %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="align-middle text-red">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="m15 9-6 6"></path>
+                                <path d="m9 9 6 6"></path>
+                            </svg>
+                        {% endif %}
+                        <span class="align-middle ml{{ " text-" + target.status_color }}">{{ target.name }}</span>
+                    </div>
+                    <div class="target-content">
+                        <span
+                            class="faded-text bottom-side-note">{{ _("Average Uptime: ") + target.average_uptime if target.average_uptime }}</span>
+                        {% for item in target.get_display_items() %}
+                            <div class="status-block{{ " status-block-" + item.status_color }} tooltip">
+                                <div class="tooltip-content">
+                                    <div class="tooltip-box">
+                                        <span class="datetime align-middle">{{ item.formatted_datetime_start }}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="align-middle tooltip-arrow-right">
+                                            <path d="M18 8L22 12L18 16"></path>
+                                            <path d="M2 12H22"></path>
+                                        </svg>
+                                        <div class="tooltip-arrow-down">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="align-middle">
+                                                <path d="M8 18L12 22L16 18"></path>
+                                                <path d="M12 2V22"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="datetime align-middle">{{ item.formatted_datetime_end }}</span>
+                                        <div class="status-text">
+                                            {% if item.status == Status.UP %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="align-middle text-green">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <path d="m9 12 2 2 4-4"></path>
+                                                </svg>
+                                            {% elif item.status == Status.DOWN %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="align-middle text-red">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <path d="m15 9-6 6"></path>
+                                                    <path d="m9 9 6 6"></path>
+                                                </svg>
+                                            {% elif item.status == Status.SEMI_DOWN %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="align-middle text-yellow">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <line x1="12" x2="12" y1="8" y2="12"></line>
+                                                    <line x1="12" x2="12.01" y1="16" y2="16"></line>
+                                                </svg>
+                                            {% elif item.status == Status.NO_DATA %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="align-middle text-gray">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                    <path d="M12 17h.01"></path>
+                                                </svg>
+                                            {% endif %}
+                                            <span
+                                                class="align-middle{{ " text-" + item.status_color }}">{{ item.status_text }}</span>
+                                        </div>
+                                        {% if item.uptime_info %}
+                                            <div>{{ item.uptime_info }}</div>
+                                        {% endif %}
+                                        {% if item.downtime_info %}
+                                            <div>{{ item.downtime_info }}</div>
+                                        {% endif %}
+                                        {% if item.no_data_info %}
+                                            <div>{{ item.no_data_info }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="chevron-down"></div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if prev_page or next_page %}
+            <div class="center-flex">
+                {% if prev_page %}
+                    <a href="{{ url_for('views.index', page=prev_page) }}" class="btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="align-middle">
+                                <path d="M18 15h-6v4l-7-7 7-7v4h6v6z"></path>
+                            </svg>
+                            <span class="align-middle">{{ _("Previous") }}</span>
+                        </div>
+                    </a>
+                {% endif %}
+                {% if next_page %}
+                    <a href="{{ url_for('views.index', page=next_page) }}" class="btn">
+                        <div>
+                            <span class="align-middle">{{ _("Next") }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="align-middle">
+                                <path d="M6 9h6V5l7 7-7 7v-4H6V9z"></path>
+                            </svg>
+                        </div>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

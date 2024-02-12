@@ -1,0 +1,17 @@
+[project]
+name = "status_dwarf"
+description = "A simple uptime status page."
+version = "1.0"
+license = { file = "LICENSE" }
+readme = { file = "README.md" }
+repository = "https://github.com/cosmicproc/status_dwarf"
+authors = [
+    { name = "Cosmic Process" }
+]
+dependencies = [
+    "flask",
+    "flask-sqlalchemy",
+    "flask-migrate",
+    "flask-apscheduler",
+    "httpx",
+]
