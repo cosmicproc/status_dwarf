@@ -231,8 +231,8 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
         return list(reversed(result[:block_count]))
 
     @classmethod
-    def all_targets_up(cls) -> bool:
+    def any_target_down(cls) -> bool:
         for target in cls.query.all():
-            if target.status != Status.UP != Status.NO_DATA:
-                return False
-        return True
+            if target.status == Status.DOWN:
+                return True
+        return False
