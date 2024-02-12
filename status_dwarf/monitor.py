@@ -7,7 +7,7 @@ import httpx
 from flask import current_app
 from flask_apscheduler import APScheduler  # type: ignore[import-untyped]
 
-from status_dwarf.models import session, Target, Status, TargetMethod
+from status_dwarf.models import session, Target, Status, TargetStrategy
 from status_dwarf.utils import div_ceil, sub_datetime_rounded, strip_protocol
 
 scheduler = APScheduler()
@@ -15,7 +15,7 @@ scheduler = APScheduler()
 
 async def icmp_heartbeat(address: str) -> bool:
     address = strip_protocol(address)
-    proc = await asyncio.create_subprocess_shell(f'ping -t 1 "{address}"',
+    proc = await asyncio.create_subprocess_shell(f'ping -c 1 -t 1 "{address}"',
                                                  stdout=subprocess.DEVNULL)
     await proc.communicate()
     return proc.returncode == 0
@@ -70,9 +70,9 @@ async def check_target(target: Target) -> None:
     with scheduler.app.app_context():
         custom_user_agent = current_app.config["CUSTOM_USER_AGENT"]
     is_up = False
-    if target.strategy == TargetMethod.HTTP:
+    if target.strategy == TargetStrategy.HTTP:
         is_up = await http_heartbeat(target.address, custom_user_agent)
-    elif target.strategy == TargetMethod.ICMP:
+    elif target.strategy == TargetStrategy.ICMP:
         is_up = await icmp_heartbeat(target.address)
     old_status = target.status
     target.status = Status.UP if is_up else Status.DOWN

@@ -23,20 +23,19 @@ class Status(Enum):
     NO_DATA = 5
 
 
-class TargetMethod(Enum):
+class TargetStrategy(Enum):
     HTTP = 1
     ICMP = 2
 
     DEFAULT = HTTP
 
     @classmethod
-    def str_to_strategy(cls, string) -> Optional["TargetMethod"]:
+    def str_to_strategy(cls, string) -> Optional["TargetStrategy"]:
         if string.lower() == "http" or string.lower() == "https":
             return cls.HTTP
         elif string.lower() == "ping" or string.lower() == "icmp":
             return cls.ICMP
         return cls.DEFAULT
-
 
 
 class UTCDateTime(db.TypeDecorator):  # type: ignore[name-defined]
@@ -177,7 +176,7 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
     status_update_datetime: Mapped[datetime] = mapped_column(UTCDateTime,
                                                              default=datetime.now(
                                                                  timezone.utc))
-    strategy: Mapped[TargetMethod] = mapped_column(sqlalchemy.Enum(TargetMethod))
+    strategy: Mapped[TargetStrategy] = mapped_column(sqlalchemy.Enum(TargetStrategy))
 
     @property
     def average_uptime(self) -> Optional[str]:

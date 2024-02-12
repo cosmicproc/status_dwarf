@@ -11,6 +11,7 @@ authors = [
 dependencies = [
     "flask",
     "flask-sqlalchemy",
+    "flask-migrate",
     "flask-apscheduler",
     "httpx",
 ]
