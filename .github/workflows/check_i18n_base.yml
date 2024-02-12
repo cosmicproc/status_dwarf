@@ -1,0 +1,16 @@
+name: Check i18n Base
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  check_i18n_base:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run check_i18n_base.yml
+        run: |
+          python scripts/check_i18n_base.py
