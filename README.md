@@ -11,7 +11,6 @@ A simple uptime status page.
 - Minimal
 - Easily customizable with [configuration](status_dwarf/config.py) options
 - Proper mobile and dark mode support
-- Permissive license
 
 ## Screenshots
 
@@ -29,9 +28,8 @@ Here is how it looks like.
 <details>
     <summary>Mobile</summary>
 
-![screenshot-mobile-light.png](project_images/screenshot-mobile-light.png)
-
-![screenshot-mobile-dark.png](project_images/screenshot-mobile-dark.png)
+<img src="./project_images/screenshot-mobile-light.png" alt="screenshot-mobile-light.png" width="400">
+<img src="./project_images/screenshot-mobile-dark.png" alt="screenshot-mobile-dark.png" width="400">
 
 </details>
 
