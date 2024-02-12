@@ -28,8 +28,8 @@ def index(page: int) -> str:
     return render_template("index.html", **context)
 
 
-@views.route("/atom")
 @views.route("/atom.xml")
+@views.route("/atom")
 def atom() -> Response:
     if not current_app.config["ATOM_ENABLED"]:
         return abort(404)
