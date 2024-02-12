@@ -97,5 +97,4 @@ async def check_status() -> None:
 
 
 def monitor_task() -> None:
-    asyncio.set_event_loop(asyncio.new_event_loop())
     asyncio.run(check_status())
