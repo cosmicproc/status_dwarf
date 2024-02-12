@@ -22,7 +22,7 @@ def index(page: int) -> str:
         "targets": all_targets[(page - 1) * page_size: page * page_size],
         "next_page": page + 1 if page_count > page else None,
         "prev_page": page - 1 if page > 1 else None,
-        "show_positive_message": Target.all_targets_up(),
+        "show_positive_message": not Target.any_target_down(),
         "Status": Status,
     }
     return render_template("index.html", **context)

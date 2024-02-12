@@ -246,8 +246,8 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
         return result
 
     @classmethod
-    def all_targets_up(cls) -> bool:
+    def any_target_down(cls) -> bool:
         for target in cls.query.all():
             if target.status == Status.DOWN:
-                return False
-        return True
+                return True
+        return False
