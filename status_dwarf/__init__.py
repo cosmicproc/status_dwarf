@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_migrate import Migrate  # type: ignore[import-untyped]
 
 from status_dwarf.commands import commands
 from status_dwarf.models import db
@@ -23,6 +24,7 @@ def create_app(no_db=False, no_scheduler=False):
 
         with app.app_context():
             db.create_all()
+        Migrate(app, db)
 
     if not no_scheduler:
         scheduler.init_app(app)

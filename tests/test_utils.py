@@ -15,6 +15,15 @@ class TestUtils(unittest.TestCase):
         dt2 = dt1 + timedelta(microseconds=950000)
         self.assertEqual(utils.sub_datetime_rounded(dt2, dt1), timedelta(seconds=1))
 
+    def test_strip_protocol(self):
+        tests = {
+            "https://example.com": "example.com",
+            "http://example.com": "example.com",
+            "example.com": "example.com",
+        }
+        for address, expected in tests.items():
+            self.assertEqual(utils.strip_protocol(address), expected)
+
     def test_translator(self):
         # _("") pattern should not be used here as it would be caught by i18n base generation script.
         class PseudoApp:

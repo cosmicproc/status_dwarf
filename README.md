@@ -11,7 +11,6 @@ A simple uptime status page.
 - Minimal
 - Easily customizable with [configuration](status_dwarf/config.py) options
 - Proper mobile and dark mode support
-- Permissive license
 
 ## Screenshots
 
@@ -29,9 +28,8 @@ Here is how it looks like.
 <details>
     <summary>Mobile</summary>
 
-![screenshot-mobile-light.png](project_images/screenshot-mobile-light.png)
-
-![screenshot-mobile-dark.png](project_images/screenshot-mobile-dark.png)
+<img src="./project_images/screenshot-mobile-light.png" alt="screenshot-mobile-light.png" width="400">
+<img src="./project_images/screenshot-mobile-dark.png" alt="screenshot-mobile-dark.png" width="400">
 
 </details>
 
@@ -63,6 +61,7 @@ docker build .
 
 ### Non-Docker
 
+The ```ping``` command is required for ICMP (PING) targets. Make sure it's available.
 Create a virtual environment and install gunicorn (you can also use something else if you wish) by running:
 
 ```
@@ -103,6 +102,29 @@ Here are some other possible customizations that can be made relatively easily:
 - To change the color scheme, edit the variables at the top of the [style.css](status_dwarf/static/css/style.css) file.
 - To change the font, put your desired font in the [fonts directory](status_dwarf/static/fonts) and tweak
   the [fonts.css](status_dwarf/static/css/fonts.css) file.
+
+## Updating
+
+Clone the repository:
+
+```
+git clone https://github.com/cosmicproc/status_dwarf
+```
+
+Apply your modifications (like the config file) again to the new repository.
+Make sure that new repository uses the intended database.
+
+Migrate the database:
+
+```
+flask --app status_dwarf db upgrade
+```
+
+### Note
+
+I highly recommend to fork the repository and apply your changes there instead.
+That way, you can make your modifications in your fork and update simply by merging the changes, running ```git pull```
+and migrating the database.
 
 ## Credits
 
