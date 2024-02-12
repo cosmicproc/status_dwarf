@@ -40,7 +40,7 @@
         {% for target in targets %}
             <div class="center-flex">
                 <div class="target-container">
-                    <a href="{{ target.address }}" class="target-name">
+                    <div class="target-name">
                         {% if target.status == Status.UP %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -60,7 +60,7 @@
                             </svg>
                         {% endif %}
                         <span class="align-middle ml{{ " text-" + target.status_color }}">{{ target.name }}</span>
-                    </a>
+                    </div>
                     <div class="target-content">
                         <span
                             class="faded-text bottom-side-note">{{ _("Average Uptime: ") + target.average_uptime if target.average_uptime }}</span>
