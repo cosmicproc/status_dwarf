@@ -23,6 +23,21 @@ class Status(Enum):
     NO_DATA = 5
 
 
+class TargetStrategy(Enum):
+    HTTP = 1
+    ICMP = 2
+
+    DEFAULT = HTTP
+
+    @classmethod
+    def str_to_strategy(cls, string) -> Optional["TargetStrategy"]:
+        if string.lower() == "http" or string.lower() == "https":
+            return cls.HTTP
+        elif string.lower() == "ping" or string.lower() == "icmp":
+            return cls.ICMP
+        return cls.DEFAULT
+
+
 class UTCDateTime(db.TypeDecorator):  # type: ignore[name-defined]
     impl = db.DateTime(timezone=True)
 
@@ -59,8 +74,7 @@ class StatusMethodsMixin:
             return _("Insufficient Data")
         elif self.status == Status.NO_DATA:
             return _("No Data")
-        else:
-            return _("Unknown")
+        return _("Unknown")
 
 
 class TimelineItem(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
@@ -110,8 +124,7 @@ class TimelineItem(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
             return Status.UP
         elif self.no_data_percentage > 95:
             return Status.NO_DATA
-        else:
-            return Status.INSUFFICIENT_DATA
+        return Status.INSUFFICIENT_DATA
 
     @property
     def uptime_info(self) -> Optional[str]:
@@ -156,13 +169,14 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
     __tablename__ = "target_table"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50))
-    url: Mapped[str] = mapped_column(String(250))
+    address: Mapped[str] = mapped_column(String(250))
     head_timeline_item: Mapped[List["TimelineItem"]] = relationship("TimelineItem")
     status: Mapped[Status] = mapped_column(sqlalchemy.Enum(Status),
                                            nullable=True)
     status_update_datetime: Mapped[datetime] = mapped_column(UTCDateTime,
                                                              default=datetime.now(
                                                                  timezone.utc))
+    strategy: Mapped[TargetStrategy] = mapped_column(sqlalchemy.Enum(TargetStrategy))
 
     @property
     def average_uptime(self) -> Optional[str]:
@@ -228,7 +242,8 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
             hours=(i + 1) * block_coverage), datetime_end=datetime_ref - timedelta(
             hours=i * block_coverage), uptime_secs=0, downtime_secs=0) for i in
                    range(block_count - len(result))]
-        return list(reversed(result[:block_count]))
+        result.reverse()
+        return result
 
     @classmethod
     def any_target_down(cls) -> bool:

@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 from status_dwarf import create_app
-from status_dwarf.models import session, Target, db
+from status_dwarf.models import session, Target, TargetStrategy, db
 
 
 class TestModels(unittest.TestCase):
@@ -16,7 +16,8 @@ class TestModels(unittest.TestCase):
 
     def test_add_timeline_item(self):
         with self.app.app_context():
-            test_target = Target(name="Test Target", url="https://example.com")
+            test_target = Target(name="Test Target", address="https://example.com",
+                                 strategy=TargetStrategy.HTTP)
             session.add(test_target)
             dt1 = datetime.now(timezone.utc)
             dt2 = dt1 + timedelta(days=1)
@@ -26,7 +27,8 @@ class TestModels(unittest.TestCase):
 
     def test_get_display_items(self):
         with self.app.app_context():
-            test_target = Target(name="Test Target", url="https://example.com")
+            test_target = Target(name="Test Target", address="https://example.com",
+                                 strategy=TargetStrategy.HTTP)
             session.add(test_target)
             self.assertEqual(len(test_target.get_display_items()),
                              self.app.config["STATUS_BLOCK_COUNT"])

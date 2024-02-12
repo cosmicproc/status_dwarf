@@ -10,8 +10,8 @@ class TestCommands(unittest.TestCase):
         app = create_app(no_db=True, no_scheduler=True)
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
         test_targets = [
-            ("Example 1", "https://example.com"),
-            ("Example 2", "https://example.com"),
+            ("Example 1", "https://example.com", "HTTP"),
+            ("Example 2", "https://example.com", "PING"),
             ("Example 3", "https://example.com"),
         ]
         app.config["TARGETS"] = test_targets
@@ -21,7 +21,7 @@ class TestCommands(unittest.TestCase):
             sync_targets(no_confirm=True)
             for target in session.query(Target).all():
                 self.assertEqual(target.name, test_targets[target.id - 1][0])
-                self.assertEqual(target.url, test_targets[target.id - 1][1])
+                self.assertEqual(target.address, test_targets[target.id - 1][1])
 
 
 if __name__ == '__main__':
