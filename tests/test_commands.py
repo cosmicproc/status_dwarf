@@ -10,8 +10,8 @@ class TestCommands(unittest.TestCase):
         app = create_app(no_db=True, no_scheduler=True)
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
         test_targets = [
-            ("Example 1", "https://example.com"),
-            ("Example 2", "https://example.com"),
+            ("Example 1", "https://example.com", "HTTP"),
+            ("Example 2", "https://example.com", "PING"),
             ("Example 3", "https://example.com"),
         ]
         app.config["TARGETS"] = test_targets
