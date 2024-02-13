@@ -25,7 +25,7 @@ def sub_datetime_rounded(dt1: datetime, dt2: datetime) -> timedelta:
     return result - timedelta(microseconds=result.microseconds)
 
 
-def strip_protocol(address):
+def strip_protocol(address: str):
     return address.split("://")[-1]
 
 

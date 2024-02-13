@@ -4,7 +4,7 @@ from flask import Blueprint, current_app
 # db has to be imported for database instance to get created if it doesn't exist.
 from status_dwarf.models import session, Target, TargetStrategy, db  # noqa
 
-commands = Blueprint("commands", __name__)
+commands_bp = Blueprint("commands", __name__)
 
 
 def sync_targets(no_confirm=False) -> None:
@@ -40,6 +40,6 @@ def sync_targets(no_confirm=False) -> None:
     print("Synchronization done!")
 
 
-@commands.cli.command("sync_targets")
+@commands_bp.cli.command("sync_targets")
 def sync_targets_command():
     return sync_targets()
