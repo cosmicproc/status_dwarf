@@ -35,10 +35,13 @@ Here is how it looks like.
 
 ## Installation
 
-First clone the repository by running:
+Clone the repository, create a virtual environment and install the requirements by running:
 
 ```
 git clone https://github.com/cosmicproc/status_dwarf
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 Enter the project directory. Copy and paste the [base config file](status_dwarf/config/config_base.json) to config.json
@@ -63,11 +66,9 @@ docker build .
 ### Non-Docker
 
 The ```ping``` command is required for ICMP (PING) targets. Make sure it's available.
-Create a virtual environment and install gunicorn (you can also use something else if you wish) by running:
+Install gunicorn (you can also use something else if you wish) by running:
 
 ```
-python3 -m venv .venv
-source .venv/bin/activate
 pip3 install gunicorn
 ```
 
@@ -95,9 +96,7 @@ Here are some other possible customizations that can be made relatively easily:
 
 - To translate the app, copy and paste the [base translation file](status_dwarf/i18n/i18n_base.json)
   into the [i18n.json](status_dwarf/i18n/i18n.json) file. Then replace the values of the file to their counterparts in
-  the desired language. Make sure translation is enabled (```TRANSLATION_ENABLED``` option) in the config file. If you
-  want most translatable text in the app to be available in the base translation file, you can use
-  the [gen_i18n_base.py](scripts/gen_i18n_base.py) script to update the base translation file.
+  the desired language. Make sure translation is enabled (```TRANSLATION_ENABLED``` option) in the config file.
 - To change the images (like the one under the header in the home page), you can modify the
   images [here](status_dwarf/static/images).
 - To change the color scheme, edit the variables at the top of the [style.css](status_dwarf/static/css/style.css) file.
@@ -115,7 +114,7 @@ git clone https://github.com/cosmicproc/status_dwarf
 Apply your modifications (like the config file) again to the new repository.
 Make sure that new repository uses the intended database.
 
-Migrate the database:
+Apply the database migrations:
 
 ```
 flask --app status_dwarf db upgrade

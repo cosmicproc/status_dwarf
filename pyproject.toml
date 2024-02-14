@@ -1,10 +1,8 @@
 [project]
 name = "status_dwarf"
 description = "A simple uptime status page."
-version = "1.0"
 license = { file = "LICENSE" }
-readme = { file = "README.md" }
-repository = "https://github.com/cosmicproc/status_dwarf"
+readme = "README.md"
 authors = [
     { name = "Cosmic Process" }
 ]
@@ -15,3 +13,7 @@ dependencies = [
     "flask-apscheduler",
     "httpx",
 ]
+dynamic = ["version"]
+
+[tool.setuptools.packages.find]
+where = ["status_dwarf"]

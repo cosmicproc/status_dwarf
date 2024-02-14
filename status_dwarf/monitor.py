@@ -1,11 +1,12 @@
+from __future__ import annotations
+
 import asyncio
-import subprocess
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+from subprocess import DEVNULL
 
 import httpx
 from flask import current_app
-from flask_apscheduler import APScheduler  # type: ignore[import-untyped]
+from flask_apscheduler import APScheduler
 
 from status_dwarf.models import session, Target, Status, TargetStrategy
 from status_dwarf.utils import div_ceil, sub_datetime_rounded, strip_protocol
@@ -15,13 +16,13 @@ scheduler = APScheduler()
 
 async def icmp_heartbeat(address: str) -> bool:
     address = strip_protocol(address)
-    proc = await asyncio.create_subprocess_shell(f'ping -c 1 "{address}"',
-                                                 stdout=subprocess.DEVNULL)
+    proc = await asyncio.create_subprocess_exec("ping", "-c", "1", address,
+                                                stdout=DEVNULL, stderr=DEVNULL)
     await proc.communicate()
     return proc.returncode == 0
 
 
-async def http_heartbeat(address: str, user_agent: Optional[str] = None) -> bool:
+async def http_heartbeat(address: str, user_agent: str | None = None) -> bool:
     custom_headers = {"User-Agent": user_agent} if user_agent else None
     async with httpx.AsyncClient() as client:
         try:
@@ -97,5 +98,4 @@ async def check_status() -> None:
 
 
 def monitor_task() -> None:
-    asyncio.set_event_loop(asyncio.new_event_loop())
     asyncio.run(check_status())

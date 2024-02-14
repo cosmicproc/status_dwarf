@@ -1,7 +1,9 @@
-import functools
+from __future__ import annotations
+
+import enum
 from datetime import datetime, timedelta, timezone
-from enum import Enum
-from typing import List, Optional, Protocol
+from functools import cached_property
+from typing import Protocol
 
 import sqlalchemy
 from flask import current_app
@@ -15,7 +17,7 @@ db = SQLAlchemy()
 session = db.session
 
 
-class Status(Enum):
+class Status(enum.Enum):
     UP = 1
     DOWN = 2
     SEMI_DOWN = 3
@@ -23,14 +25,14 @@ class Status(Enum):
     NO_DATA = 5
 
 
-class TargetStrategy(Enum):
+class TargetStrategy(enum.Enum):
     HTTP = 1
     ICMP = 2
 
     DEFAULT = HTTP
 
     @classmethod
-    def str_to_strategy(cls, string) -> Optional["TargetStrategy"]:
+    def str_to_strategy(cls, string) -> "TargetStrategy":
         if string.lower() == "http" or string.lower() == "https":
             return cls.HTTP
         elif string.lower() == "ping" or string.lower() == "icmp":
@@ -38,7 +40,7 @@ class TargetStrategy(Enum):
         return cls.DEFAULT
 
 
-class UTCDateTime(db.TypeDecorator):  # type: ignore[name-defined]
+class UTCDateTime(db.TypeDecorator):
     impl = db.DateTime(timezone=True)
 
     def process_result_value(self, value, dialect):
@@ -77,7 +79,7 @@ class StatusMethodsMixin:
         return _("Unknown")
 
 
-class TimelineItem(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
+class TimelineItem(db.Model, StatusMethodsMixin):
     __tablename__ = "timelineitem_table"
     id: Mapped[int] = mapped_column(primary_key=True)
     target_id: Mapped[int] = mapped_column(ForeignKey("target_table.id"),
@@ -127,30 +129,30 @@ class TimelineItem(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
         return Status.INSUFFICIENT_DATA
 
     @property
-    def uptime_info(self) -> Optional[str]:
+    def uptime_info(self) -> str | None:
         if self.uptime_percentage > 1 and self.status != Status.UP:
             return _("Uptime: ") + f"{self.uptime_percentage / 100:.0%}"
         return None
 
     @property
-    def downtime_info(self) -> Optional[str]:
+    def downtime_info(self) -> str | None:
         if self.downtime_percentage > 1:
             return _("Downtime: ") + str(timedelta(seconds=self.downtime_secs))
         return None
 
     @property
-    def no_data_info(self) -> Optional[str]:
+    def no_data_info(self) -> str | None:
         if self.no_data_percentage > 1 and self.status != Status.NO_DATA:
             return _("Missing data: ") + f"{self.no_data_percentage / 100:.0%}"
         return None
 
-    @functools.cached_property
+    @cached_property
     def uptime_until_item(self) -> int:
         if self.previous_item:
             return self.uptime_secs + self.previous_item.uptime_secs
         return self.uptime_secs
 
-    @functools.cached_property
+    @cached_property
     def known_coverage_until_item(self) -> int:
         own_known_coverage = self.uptime_secs + self.downtime_secs
         if self.previous_item:
@@ -158,19 +160,19 @@ class TimelineItem(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
                     + self.previous_item.downtime_secs)
         return own_known_coverage
 
-    @functools.cached_property
+    @cached_property
     def average_uptime_until_item(self) -> float:
         self.__dict__.pop("uptime_until_item", None)
         self.__dict__.pop("known_coverage_until_item", None)
         return self.uptime_until_item / self.known_coverage_until_item
 
 
-class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
+class Target(db.Model, StatusMethodsMixin):
     __tablename__ = "target_table"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50))
     address: Mapped[str] = mapped_column(String(250))
-    head_timeline_item: Mapped[List["TimelineItem"]] = relationship("TimelineItem")
+    head_timeline_item: Mapped[list[TimelineItem]] = relationship("TimelineItem")
     status: Mapped[Status] = mapped_column(sqlalchemy.Enum(Status),
                                            nullable=True)
     status_update_datetime: Mapped[datetime] = mapped_column(UTCDateTime,
@@ -179,13 +181,13 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
     strategy: Mapped[TargetStrategy] = mapped_column(sqlalchemy.Enum(TargetStrategy))
 
     @property
-    def average_uptime(self) -> Optional[str]:
+    def average_uptime(self) -> str | None:
         if not self.head_timeline_item:
             return None
         return f"{self.head_timeline_item[0].average_uptime_until_item:.0%}"
 
     @property
-    def tail_timeline_item(self) -> Optional["TimelineItem"]:
+    def tail_timeline_item(self) -> TimelineItem | None:
         if not self.head_timeline_item:
             return None
         previous_item = self.head_timeline_item[0]
@@ -194,7 +196,7 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
         return previous_item
 
     @property
-    def timeline_items(self) -> List["TimelineItem"]:
+    def timeline_items(self) -> list[TimelineItem]:
         result = []
         previous_item = self.head_timeline_item[0] if len(
             self.head_timeline_item) > 0 else None
@@ -221,7 +223,7 @@ class Target(db.Model, StatusMethodsMixin):  # type: ignore[name-defined]
 
         return new_item
 
-    def get_display_items(self) -> List["TimelineItem"]:
+    def get_display_items(self) -> list[TimelineItem]:
         tail_item_interval = (
             (self.tail_timeline_item.datetime_end -
              self.tail_timeline_item.datetime_start).total_seconds() / 3600
