@@ -35,10 +35,13 @@ Here is how it looks like.
 
 ## Installation
 
-First clone the repository by running:
+Clone the repository, create a virtual environment and install the requirements by running:
 
 ```
 git clone https://github.com/cosmicproc/status_dwarf
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 Enter the project directory and set up the [config file](status_dwarf/config.py) according to your needs. After setting
@@ -62,11 +65,9 @@ docker build .
 ### Non-Docker
 
 The ```ping``` command is required for ICMP (PING) targets. Make sure it's available.
-Create a virtual environment and install gunicorn (you can also use something else if you wish) by running:
+Install gunicorn (you can also use something else if you wish) by running:
 
 ```
-python3 -m venv .venv
-source .venv/bin/activate
 pip3 install gunicorn
 ```
 
@@ -112,7 +113,7 @@ git clone https://github.com/cosmicproc/status_dwarf
 Apply your modifications (like the config file) again to the new repository.
 Make sure that new repository uses the intended database.
 
-Migrate the database:
+Apply the database migrations:
 
 ```
 flask --app status_dwarf db upgrade
@@ -122,7 +123,7 @@ flask --app status_dwarf db upgrade
 
 I highly recommend to fork the repository and apply your changes there instead.
 That way, you can make your modifications in your fork and update simply by merging the changes, running ```git pull```
-and migrating the database.
+and applying the database migrations.
 
 ## Credits
 
