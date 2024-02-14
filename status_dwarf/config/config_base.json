@@ -1,0 +1,25 @@
+{
+    "APP_NAME": "Status Dwarf",
+    "APP_DESCRIPTION": "A simple uptime status page.",
+    "FOOTER_TEXT": "Made with <a href='https://github.com/cosmicproc/status_dwarf'>Status Dwarf</a>",
+    "TARGETS": [
+        [
+            "GitHub",
+            "https://github.com",
+            "HTTP"
+        ],
+        [
+            "Python.org",
+            "https://python.org",
+            "HTTP"
+        ]
+    ],
+    "INTERVAL_SECONDS": 60,
+    "STATUS_BLOCK_COVERAGE": 24,
+    "STATUS_BLOCK_COUNT": 30,
+    "PAGE_SIZE": 8,
+    "CUSTOM_USER_AGENT": "Status Dwarf",
+    "SQLALCHEMY_DATABASE_URI": "sqlite:///db.sqlite3",
+    "TRANSLATIONS_ENABLED": true,
+    "ATOM_ENABLED": true
+}
