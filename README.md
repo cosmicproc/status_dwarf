@@ -9,7 +9,7 @@ A simple uptime status page.
 
 - Simple
 - Minimal
-- Easily customizable with [configuration](status_dwarf/config.py) options
+- Easily customizable with [configuration](status_dwarf/config/config_base.json) options
 - Proper mobile and dark mode support
 
 ## Screenshots
@@ -41,8 +41,9 @@ First clone the repository by running:
 git clone https://github.com/cosmicproc/status_dwarf
 ```
 
-Enter the project directory and set up the [config file](status_dwarf/config.py) according to your needs. After setting
-up the config file run:
+Enter the project directory. Copy and paste the [base config file](status_dwarf/config/config_base.json) to config.json
+in the same directory. Then set up that config file according to your needs. After setting up the config
+file run:
 
 ```
 flask --app status_dwarf commands sync_targets
@@ -87,8 +88,8 @@ gunicorn. The static files that app uses can be found in [here](status_dwarf/sta
 
 ## Customization
 
-Most customization is done through the [config file](status_dwarf/config.py). Comments in the config file explain their
-usage.
+Most customization is done through the [config file](status_dwarf/config/config_base.json). See
+the [config documentation](status_dwarf/config/config.md) for more details.
 
 Here are some other possible customizations that can be made relatively easily:
 
@@ -122,9 +123,10 @@ flask --app status_dwarf db upgrade
 
 ### Note
 
-I highly recommend to fork the repository and apply your changes there instead.
+You may want to fork the repository and apply your changes there instead.
 That way, you can make your modifications in your fork and update simply by merging the changes, running ```git pull```
-and migrating the database.
+and migrating the database. Keep in mind that the config.json file is ignored by git. If you want to track that file,
+remove it from the [gitignore](.gitignore).
 
 ## Credits
 

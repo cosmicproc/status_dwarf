@@ -313,3 +313,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Config file
+status_dwarf/config/config.json

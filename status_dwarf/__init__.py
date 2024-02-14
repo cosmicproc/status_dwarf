@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 from flask import Flask
 from flask_migrate import Migrate  # type: ignore[import-untyped]
 
@@ -7,10 +10,14 @@ from status_dwarf.monitor import scheduler, monitor_task
 from status_dwarf.utils import _
 from status_dwarf.views import views
 
+BASE_DIR = Path(__file__).resolve().parent
+
 
 def create_app(no_db=False, no_scheduler=False):
     app = Flask(__name__)
-    app.config.from_pyfile("config.py")
+    config_file = "config/config.json" if (BASE_DIR / Path(
+        "config/config.json")).is_file() else "config/config_base.json"
+    app.config.from_file(config_file, load=json.load)
 
     app.register_blueprint(views)
     app.register_blueprint(commands)
